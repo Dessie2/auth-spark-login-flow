@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -15,7 +14,6 @@ const LoginForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Iniciar sesión con:', { username, password });
 
     if (username === 'lider' && password === 'lider') {
       toast({
@@ -28,7 +26,7 @@ const LoginForm = () => {
         title: "Inicio de sesión exitoso",
         description: "Bienvenido al Dashboard",
       });
-      navigate('/Dashboard');
+      navigate('/dashboard');
     } else {
       toast({
         title: "Error de inicio de sesión",
@@ -46,28 +44,28 @@ const LoginForm = () => {
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <label htmlFor="username" className="text-sm text-gray-600">Usuario</label>
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+              Usuario
+            </label>
             <Input
               id="username"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full border-b border-gray-300 px-0 py-2 bg-transparent focus:ring-0 focus:border-[#1d2761]"
-              style={{ borderRadius: 0, borderTop: 'none', borderLeft: 'none', borderRight: 'none' }}
               required
             />
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="password" className="text-sm text-gray-600">Contraseña</label>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              Contraseña
+            </label>
             <div className="relative">
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full border-b border-gray-300 px-0 py-2 bg-transparent focus:ring-0 focus:border-[#1d2761]"
-                style={{ borderRadius: 0, borderTop: 'none', borderLeft: 'none', borderRight: 'none' }}
                 required
               />
               <button
@@ -75,23 +73,21 @@ const LoginForm = () => {
                 className="absolute inset-y-0 right-0 flex items-center pr-3"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <EyeOff size={20} className="text-gray-500" /> : <Eye size={20} className="text-gray-500" />}
+                {showPassword ? (
+                  <EyeOff size={20} className="text-gray-500" />
+                ) : (
+                  <Eye size={20} className="text-gray-500" />
+                )}
               </button>
             </div>
           </div>
 
-          <Button 
-            type="submit" 
-            className="w-full bg-[#CDA434] hover:bg-[#8a842c] text-white py-2 rounded"
+          <Button
+            type="submit"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#1d2761] hover:bg-[#102781] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1d2761]"
           >
             INICIAR SESIÓN
           </Button>
-
-          <div className="text-center">
-            <a href="#" className="text-sm text-[#1d2761] hover:underline">
-              Olvidaste la contraseña
-            </a>
-          </div>
         </form>
       </CardContent>
     </Card>

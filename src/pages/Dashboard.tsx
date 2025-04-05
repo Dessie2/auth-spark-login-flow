@@ -6,6 +6,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
+// Dashboard component (if you want to use it separately)
+export const Dashboard = () => {
+  return (
+    <div className="p-4">
+      <h1 className="text-3xl font-bold text-[#1d2761]">Bienvenido al Dashboard</h1>
+      <p className="mt-2 text-gray-600">Aquí puedes ver el resumen general del sistema.</p>
+    </div>
+  );
+};
+
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
