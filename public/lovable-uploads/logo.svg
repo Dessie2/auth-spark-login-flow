@@ -1,0 +1,14 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <style>
+    .text { font: bold 24px sans-serif; fill: #C39738; }
+    .subtext { font: 12px sans-serif; fill: #C39738; }
+    .main { fill: #C39738; }
+  </style>
+  <path class="main" d="M30,30 L60,30 L60,40 L40,40 L40,50 L55,50 L55,60 L40,60 L40,70 L60,70 L60,80 L30,80 Z" />
+  <path class="main" d="M65,30 L75,30 L95,60 L95,30 L105,30 L105,80 L95,80 L75,50 L75,80 L65,80 Z" />
+  <path class="main" d="M110,30 L140,30 L140,40 L130,40 L130,80 L120,80 L120,40 L110,40 Z" />
+  <path class="main" d="M145,55 C145,40 155,29 170,29 C185,29 195,40 195,55 C195,70 185,81 170,81 C155,81 145,70 145,55 Z M155,55 C155,65 160,71 170,71 C180,71 185,65 185,55 C185,45 180,39 170,39 C160,39 155,45 155,55 Z" />
+  <text x="100" y="95" text-anchor="middle" class="subtext">GLOBAL SOLUTIONS</text>
+  <path class="main" d="M170,20 C180,15 185,0 175,5 C170,10 165,5 160,15 C155,25 165,25 170,20 Z" />
+</svg>
