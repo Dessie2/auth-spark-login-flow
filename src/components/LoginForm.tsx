@@ -18,7 +18,7 @@ const LoginForm = () => {
     console.log('Iniciar sesión con:', { username, password });
     
     // Simulación de autenticación (en un caso real, esto sería una llamada a API)
-    if (username === 'admin' && password === 'admin') {
+    if (username === 'lider' && password === 'lider') {
       toast({
         title: "Inicio de sesión exitoso",
         description: "Bienvenido al Sistema de Registro de Vehículos",
@@ -77,7 +77,7 @@ const LoginForm = () => {
 
           <Button 
             type="submit" 
-            className="w-full bg-[#1d2761] hover:bg-[#161f4c] text-white py-2 rounded"
+            className="w-full bg-[#CDA434] hover:bg-[#8a842c] text-white py-2 rounded"
           >
             INICIAR SESIÓN
           </Button>

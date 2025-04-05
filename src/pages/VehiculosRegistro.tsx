@@ -51,7 +51,7 @@ interface Parada {
 
 const VehiculosRegistro = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState<'vehiculo' | 'inicio' | 'destino'>('vehiculo');
+  const [step, setStep] = useState<'vehiculo' | 'inicio' | 'paradas' | 'destino'>('vehiculo');
   const [dialogParadaAbierto, setDialogParadaAbierto] = useState(false);
   const [paradas, setParadas] = useState<Parada[]>([]);
   const [nuevaParada, setNuevaParada] = useState<Parada>({
@@ -99,18 +99,26 @@ const VehiculosRegistro = () => {
   const [numeroEconomico, setNumeroEconomico] = useState("");
   const [fechaMantenimiento, setFechaMantenimiento] = useState("");
   
+  // Estados para punto de inicio
+  const [lugarInicio, setLugarInicio] = useState("");
+  const [kilometrajeInicial, setKilometrajeInicial] = useState("");
+  const [fechaSalida, setFechaSalida] = useState(new Date().toISOString().split('T')[0]);
+  const [horaSalida, setHoraSalida] = useState(new Date().toTimeString().slice(0, 5));
+  
   // Obtener nombre de usuario de la sesión (simulado)
-  const [nombreUsuario, setNombreUsuario] = useState("Admin");
+  const [nombreUsuario, setNombreUsuario] = useState("Lider");
   
   // Función para cambiar al siguiente paso
   const nextStep = () => {
     if (step === 'vehiculo') setStep('inicio');
-    else if (step === 'inicio') setStep('destino');
+    else if (step === 'inicio') setStep('paradas');
+    else if (step === 'paradas') setStep('destino');
   };
   
   // Función para regresar al paso anterior
   const prevStep = () => {
-    if (step === 'destino') setStep('inicio');
+    if (step === 'destino') setStep('paradas');
+    else if (step === 'paradas') setStep('inicio');
     else if (step === 'inicio') setStep('vehiculo');
   };
 
@@ -192,7 +200,13 @@ const VehiculosRegistro = () => {
     <div className="flex flex-col min-h-screen">
       {/* Barra superior */}
       <div className="bg-black text-white p-4 flex justify-between items-center">
-        <div className="text-xl font-bold">Bienvenido a EJAD</div>
+        <div className="">
+        <img 
+          src="/lovable-uploads/logo.png" 
+          alt="EJAD Global Solutions" 
+          className="h-14 mx-auto"
+        />
+        </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center">
             <User className="mr-2 h-5 w-5" />
@@ -213,7 +227,7 @@ const VehiculosRegistro = () => {
         <h1 className="text-3xl font-bold text-center mb-8">Sistema de Registro de Vehículos</h1>
         
         {/* Tabs */}
-        <div className="grid grid-cols-3 mb-8 bg-gray-100 rounded-lg">
+        <div className="grid grid-cols-4 mb-8 bg-gray-100 rounded-lg">
           <div 
             className={`py-4 text-center ${step === 'vehiculo' ? 'bg-white font-medium' : 'text-gray-600'} cursor-pointer`}
             onClick={() => setStep('vehiculo')}
@@ -225,6 +239,12 @@ const VehiculosRegistro = () => {
             onClick={() => setStep('inicio')}
           >
             Punto de Inicio
+          </div>
+          <div 
+            className={`py-4 text-center ${step === 'paradas' ? 'bg-white font-medium' : 'text-gray-600'} cursor-pointer`}
+            onClick={() => setStep('paradas')}
+          >
+            Paradas
           </div>
           <div 
             className={`py-4 text-center ${step === 'destino' ? 'bg-white font-medium' : 'text-gray-600'} cursor-pointer`}
@@ -387,6 +407,8 @@ const VehiculosRegistro = () => {
                     <Input 
                       id="lugarInicio" 
                       placeholder="Ciudad, Dirección, etc."
+                      value={lugarInicio}
+                      onChange={(e) => setLugarInicio(e.target.value)}
                     />
                   </div>
                   
@@ -396,6 +418,8 @@ const VehiculosRegistro = () => {
                       id="kilometrajeInicial" 
                       placeholder="123456"
                       type="number"
+                      value={kilometrajeInicial}
+                      onChange={(e) => setKilometrajeInicial(e.target.value)}
                     />
                   </div>
                   
@@ -404,6 +428,8 @@ const VehiculosRegistro = () => {
                     <Input 
                       id="fechaSalida" 
                       type="date"
+                      value={fechaSalida}
+                      onChange={(e) => setFechaSalida(e.target.value)}
                     />
                   </div>
                   
@@ -412,6 +438,8 @@ const VehiculosRegistro = () => {
                     <Input 
                       id="horaSalida" 
                       type="time"
+                      value={horaSalida}
+                      onChange={(e) => setHoraSalida(e.target.value)}
                     />
                   </div>
                 </div>
@@ -478,54 +506,75 @@ const VehiculosRegistro = () => {
                       Activar Cámara
                     </Button>
                   </div>
-                  
-                  <div className="mt-6">
-                    <h3 className="font-medium mb-4">Paradas de Gasolina</h3>
-                    <div className="flex justify-end mb-4">
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        className="text-sm flex items-center gap-2"
-                        onClick={abrirDialogoParada}
-                      >
-                        <Plus className="h-4 w-4" />
-                        Agregar Parada
-                      </Button>
-                    </div>
-                    
-                    {/* Tabla de paradas */}
-                    {paradas.length > 0 && (
-                      <div className="overflow-x-auto">
-                        <Table>
-                          <TableHeader>
-                            <TableRow>
-                              <TableHead>Ubicación</TableHead>
-                              <TableHead>Kilometraje</TableHead>
-                              <TableHead>Fecha</TableHead>
-                              <TableHead>Hora</TableHead>
-                            </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            {paradas.map((parada) => (
-                              <TableRow key={parada.id}>
-                                <TableCell>{parada.ubicacion}</TableCell>
-                                <TableCell>{parada.kilometraje}</TableCell>
-                                <TableCell>{parada.fecha}</TableCell>
-                                <TableCell>{parada.hora}</TableCell>
-                              </TableRow>
-                            ))}
-                          </TableBody>
-                        </Table>
-                      </div>
-                    )}
-                    
-                    {paradas.length === 0 && (
-                      <div className="text-center py-4 text-gray-500">
-                        No hay paradas registradas. Haga clic en "Agregar Parada" para comenzar.
-                      </div>
-                    )}
-                  </div>
                 </div>
+                
+                <div className="mt-8 flex justify-between">
+                  <Button 
+                    onClick={prevStep} 
+                    variant="outline"
+                  >
+                    Atrás
+                  </Button>
+                  <Button 
+                    onClick={nextStep} 
+                    className="bg-black hover:bg-gray-800 text-white"
+                  >
+                    Continuar a Paradas
+                  </Button>
+                </div>
+              </div>
+            )}
+            
+            {step === 'paradas' && (
+              <div>
+                <h2 className="text-2xl font-bold mb-2">Paradas</h2>
+                <p className="text-gray-600 mb-6">Registre las paradas realizadas durante el recorrido.</p>
+                
+                <div className="flex justify-end mb-4">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="text-sm flex items-center gap-2"
+                    onClick={abrirDialogoParada}
+                  >
+                    <Plus className="h-4 w-4" />
+                    Agregar Parada
+                  </Button>
+                </div>
+                
+                {/* Tabla de paradas */}
+                {paradas.length > 0 && (
+                  <div className="overflow-x-auto mb-6">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Ubicación</TableHead>
+                          <TableHead>Kilometraje</TableHead>
+                          <TableHead>Fecha</TableHead>
+                          <TableHead>Hora</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {paradas.map((parada) => (
+                          <TableRow key={parada.id}>
+                            <TableCell>{parada.ubicacion}</TableCell>
+                            <TableCell>{parada.kilometraje}</TableCell>
+                            <TableCell>{parada.fecha}</TableCell>
+                            <TableCell>{parada.hora}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                )}
+                
+                {paradas.length === 0 && (
+                  <div className="text-center py-8 text-gray-500 border-2 border-dashed rounded-lg mb-6">
+                    <MapPin className="mx-auto h-8 w-8 mb-2" />
+                    <p>No hay paradas registradas.</p>
+                    <p className="text-sm">Haga clic en "Agregar Parada" para comenzar.</p>
+                  </div>
+                )}
                 
                 <div className="mt-8 flex justify-between">
                   <Button 
