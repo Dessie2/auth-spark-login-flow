@@ -1,19 +1,36 @@
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye, EyeOff } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Iniciar sesión con:', { username, password });
-    // Aquí implementarías la lógica de autenticación
+    
+    // Simulación de autenticación (en un caso real, esto sería una llamada a API)
+    if (username === 'admin' && password === 'admin') {
+      toast({
+        title: "Inicio de sesión exitoso",
+        description: "Bienvenido al Sistema de Registro de Vehículos",
+      });
+      navigate('/vehiculos');
+    } else {
+      toast({
+        title: "Error de inicio de sesión",
+        description: "Usuario o contraseña incorrecta",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
