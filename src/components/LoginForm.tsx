@@ -84,7 +84,7 @@ const LoginForm = () => {
 
           <Button
             type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#1d2761] hover:bg-[#102781] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1d2761]"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#C39738] hover:bg-[#C39739] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1d2761]"
           >
             INICIAR SESIÓN
           </Button>
