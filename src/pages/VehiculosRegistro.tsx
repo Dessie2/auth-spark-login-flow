@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -25,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { RefreshCw, MapPin, Camera, User, LogOut, Plus } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 // Tipo para el vehículo
 interface Vehiculo {
@@ -659,109 +659,111 @@ const VehiculosRegistro = () => {
       
       {/* Diálogo para agregar parada */}
       <Dialog open={dialogParadaAbierto} onOpenChange={setDialogParadaAbierto}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] max-h-[85vh]">
           <DialogHeader>
             <DialogTitle>Agregar Parada</DialogTitle>
           </DialogHeader>
           
-          <div className="grid gap-4 py-4">
-            <div className="space-y-2">
-              <label htmlFor="ubicacionParada" className="block font-medium">Ubicación</label>
-              <Input 
-                id="ubicacionParada" 
-                placeholder="Nombre de estación, dirección, etc."
-                value={nuevaParada.ubicacion}
-                onChange={(e) => setNuevaParada({...nuevaParada, ubicacion: e.target.value})}
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <h3 className="font-medium">Mapa</h3>
-              <div className="bg-gray-200 h-32 rounded-md flex items-center justify-center relative">
-                <div className="absolute bottom-2 left-0 right-0 bg-gray-800 text-white text-xs p-2 text-center">
-                  Mapa simulado - Haga clic para seleccionar ubicación
+          <ScrollArea className="h-[60vh] pr-4">
+            <div className="grid gap-4 py-4">
+              <div className="space-y-2">
+                <label htmlFor="ubicacionParada" className="block font-medium">Ubicación</label>
+                <Input 
+                  id="ubicacionParada" 
+                  placeholder="Nombre de estación, dirección, etc."
+                  value={nuevaParada.ubicacion}
+                  onChange={(e) => setNuevaParada({...nuevaParada, ubicacion: e.target.value})}
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <h3 className="font-medium">Mapa</h3>
+                <div className="bg-gray-200 h-32 rounded-md flex items-center justify-center relative">
+                  <div className="absolute bottom-2 left-0 right-0 bg-gray-800 text-white text-xs p-2 text-center">
+                    Mapa simulado - Haga clic para seleccionar ubicación
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label htmlFor="latitudParada" className="block font-medium">Latitud</label>
-                <Input 
-                  id="latitudParada" 
-                  placeholder="19.432600"
-                  value={nuevaParada.latitud}
-                  onChange={(e) => setNuevaParada({...nuevaParada, latitud: e.target.value})}
-                />
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label htmlFor="latitudParada" className="block font-medium">Latitud</label>
+                  <Input 
+                    id="latitudParada" 
+                    placeholder="19.432600"
+                    value={nuevaParada.latitud}
+                    onChange={(e) => setNuevaParada({...nuevaParada, latitud: e.target.value})}
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <label htmlFor="longitudParada" className="block font-medium">Longitud</label>
+                  <Input 
+                    id="longitudParada" 
+                    placeholder="-99.133200"
+                    value={nuevaParada.longitud}
+                    onChange={(e) => setNuevaParada({...nuevaParada, longitud: e.target.value})}
+                  />
+                </div>
               </div>
               
-              <div className="space-y-2">
-                <label htmlFor="longitudParada" className="block font-medium">Longitud</label>
-                <Input 
-                  id="longitudParada" 
-                  placeholder="-99.133200"
-                  value={nuevaParada.longitud}
-                  onChange={(e) => setNuevaParada({...nuevaParada, longitud: e.target.value})}
-                />
-              </div>
-            </div>
-            
-            <Button 
-              className="bg-white border border-gray-300 text-black hover:bg-gray-50 flex items-center justify-center"
-              onClick={actualizarCoordenadas}
-            >
-              <RefreshCw className="mr-2 h-4 w-4" />
-              Actualizar Coordenadas
-            </Button>
-            
-            <div className="space-y-2">
-              <label htmlFor="kilometrajeParada" className="block font-medium">Kilometraje</label>
-              <Input 
-                id="kilometrajeParada" 
-                placeholder="123456"
-                type="number"
-                value={nuevaParada.kilometraje}
-                onChange={(e) => setNuevaParada({...nuevaParada, kilometraje: e.target.value})}
-              />
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label htmlFor="fechaParada" className="block font-medium">Fecha</label>
-                <Input 
-                  id="fechaParada" 
-                  type="date"
-                  value={nuevaParada.fecha}
-                  onChange={(e) => setNuevaParada({...nuevaParada, fecha: e.target.value})}
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <label htmlFor="horaParada" className="block font-medium">Hora</label>
-                <Input 
-                  id="horaParada" 
-                  type="time"
-                  value={nuevaParada.hora}
-                  onChange={(e) => setNuevaParada({...nuevaParada, hora: e.target.value})}
-                />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <h3 className="font-medium flex items-center">
-                <Camera className="mr-2 h-4 w-4" />
-                Foto de Kilometraje
-              </h3>
               <Button 
-                className="w-full bg-white border border-gray-300 text-black hover:bg-gray-50 flex items-center justify-center"
+                className="bg-white border border-gray-300 text-black hover:bg-gray-50 flex items-center justify-center"
+                onClick={actualizarCoordenadas}
               >
-                <Camera className="mr-2 h-4 w-4" />
-                Activar Cámara
+                <RefreshCw className="mr-2 h-4 w-4" />
+                Actualizar Coordenadas
               </Button>
+              
+              <div className="space-y-2">
+                <label htmlFor="kilometrajeParada" className="block font-medium">Kilometraje</label>
+                <Input 
+                  id="kilometrajeParada" 
+                  placeholder="123456"
+                  type="number"
+                  value={nuevaParada.kilometraje}
+                  onChange={(e) => setNuevaParada({...nuevaParada, kilometraje: e.target.value})}
+                />
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label htmlFor="fechaParada" className="block font-medium">Fecha</label>
+                  <Input 
+                    id="fechaParada" 
+                    type="date"
+                    value={nuevaParada.fecha}
+                    onChange={(e) => setNuevaParada({...nuevaParada, fecha: e.target.value})}
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <label htmlFor="horaParada" className="block font-medium">Hora</label>
+                  <Input 
+                    id="horaParada" 
+                    type="time"
+                    value={nuevaParada.hora}
+                    onChange={(e) => setNuevaParada({...nuevaParada, hora: e.target.value})}
+                  />
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <h3 className="font-medium flex items-center">
+                  <Camera className="mr-2 h-4 w-4" />
+                  Foto de Kilometraje
+                </h3>
+                <Button 
+                  className="w-full bg-white border border-gray-300 text-black hover:bg-gray-50 flex items-center justify-center"
+                >
+                  <Camera className="mr-2 h-4 w-4" />
+                  Activar Cámara
+                </Button>
+              </div>
             </div>
-          </div>
+          </ScrollArea>
           
-          <DialogFooter>
+          <DialogFooter className="mt-4">
             <Button 
               variant="outline" 
               onClick={() => setDialogParadaAbierto(false)}
